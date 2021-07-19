@@ -18,7 +18,8 @@ public class Article {
     private String url;
 
     @Builder
-    public Article(String title, String url) {
+    public Article(String keyword, String title, String url) {
+        this.keyword = keyword;
         this.title = title;
         this.url = url;
     }
