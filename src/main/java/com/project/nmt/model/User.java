@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@Table(name = "\"user\"")
 @Entity
 public class User {
 
