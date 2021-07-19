@@ -2,7 +2,6 @@ package com.project.nmt.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Table(name = "\"order\"")
 @Entity
