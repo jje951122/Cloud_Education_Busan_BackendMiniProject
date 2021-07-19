@@ -1,10 +1,11 @@
 package com.project.nmt.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@NoArgsConstructor
 @Entity
 public class Article {
 
@@ -12,7 +13,13 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String keyword;
     private String title;
     private String url;
 
+    @Builder
+    public Article(String title, String url) {
+        this.title = title;
+        this.url = url;
+    }
 }
