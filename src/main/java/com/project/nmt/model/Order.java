@@ -1,6 +1,7 @@
 package com.project.nmt.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Table(name = "\"order\"")
@@ -12,7 +13,7 @@ public class Order {
     private Long id;
 
     private int price;
-    private LocalDateTime boughtDate;
+    private LocalDate boughtDate;
     private int quantity;
 
     @ManyToOne
