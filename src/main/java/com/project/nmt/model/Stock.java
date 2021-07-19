@@ -1,6 +1,7 @@
 package com.project.nmt.model;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,17 +10,17 @@ import java.util.List;
 
 @NoArgsConstructor
 @Entity
+@Data
 public class Stock {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;   // 종목 이름
     private int quantity;  // 종목 잔여 수량
 
-//    @OneToMany(mappedBy = "stock")
-//    private final List<StockInfo> stockInfos = new ArrayList<>();
+    @OneToMany(mappedBy = "stock")
+    private final List<StockInfo> stockInfos = new ArrayList<>();
 
 
     @Builder

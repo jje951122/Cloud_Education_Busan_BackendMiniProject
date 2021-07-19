@@ -1,10 +1,14 @@
 package com.project.nmt.model;
 
 import javax.persistence.*;
+
+import lombok.Data;
+
 import java.time.LocalDate;
 
 @Table(name = "\"order\"")
 @Entity
+@Data
 public class Order {
 
     @Id

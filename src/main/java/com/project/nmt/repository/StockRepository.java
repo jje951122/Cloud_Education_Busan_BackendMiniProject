@@ -2,8 +2,8 @@ package com.project.nmt.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.project.nmt.model.StockInfo;
+import com.project.nmt.model.Stock;
 
-public interface StockRepository extends JpaRepository<StockInfo, Long>{
-	
+public interface StockRepository extends JpaRepository<Stock, Long> {
+
 }

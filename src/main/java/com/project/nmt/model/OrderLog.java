@@ -1,9 +1,13 @@
 package com.project.nmt.model;
 
 import javax.persistence.*;
+
+import lombok.Data;
+
 import java.time.LocalDate;
 
 @Entity
+@Data
 public class OrderLog {
 
     @Id

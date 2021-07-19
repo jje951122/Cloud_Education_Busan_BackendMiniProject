@@ -1,6 +1,7 @@
 package com.project.nmt.model;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,6 +10,8 @@ import java.util.List;
 
 @NoArgsConstructor
 @Entity
+@Data
+@Table(name="\"user\"")
 public class User {
 
     @Id
