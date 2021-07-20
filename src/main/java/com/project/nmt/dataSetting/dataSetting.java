@@ -20,17 +20,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.nmt.model.Stock;
 import com.project.nmt.model.StockInfo;
 import com.project.nmt.repository.StockInfoRepository;
-import com.project.nmt.repository.StockRepository;
+import com.project.nmt.repository.stockRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
+
+
 //http://www.kamis.or.kr/service/price/xml.do?action=periodProductList&p_productclscode=02&p_startday=2015-10-01&p_endday=2015-12-01&p_itemcategorycode=200&p_itemcode=231&p_kindcode=01&p_productrankcode=04&p_countrycode=1101&p_convert_kg_yn=Y&p_cert_key=111&p_cert_id=222&p_returntype=json
+
 @RestController
-public class DataSetting {
+public class dataSetting {
 	String API = "ef02eb73-7007-4884-8401-e1bee7361066";
 
 	@Autowired
-	StockRepository sr;
+	stockRepository sr;
 	@Autowired
 	StockInfoRepository sir;
 
@@ -46,9 +50,9 @@ public class DataSetting {
 		// 고구마, 감자, 대파, 배추, 양파, 무, 고추, 마늘, 부추, 파프리카
 		String categoryCode[] = { "100", "100", "200", "200", "200", "200", "200",  "200", "200","200" };
 		String item[] = { "고구마", "감자", "대파", "배추", "양파", "딸기", "고추",  "파프리카", "호박", "미나리" };
-		String itemCode[] = { "151", "152", "246", "211", "245", "226", "243",  "256" ,"224","252"};//idx7까지 잘되네
+		String itemCode[] = { "151", "152", "246", "211", "245", "226", "243",  "256" ,"224","252"};
 		String kindCode[] = { "00", "01", "00", "01", "00", "00", "00",  "00","01","00" };
-		
+
 		JsonParser jsonParser = JsonParserFactory.getJsonParser();
 		for (int idx = 0; idx < 1; idx++) {
 			System.out.println(idx);
@@ -108,4 +112,4 @@ public class DataSetting {
 
 
 
-}
+} 

@@ -14,25 +14,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.nmt.model.Stock;
 import com.project.nmt.model.StockInfo;
 import com.project.nmt.repository.StockInfoRepository;
-import com.project.nmt.repository.StockRepository;
+import com.project.nmt.repository.stockRepository;
 
 @Controller
 public class DealController {
-	@Autowired StockRepository sr;
+	@Autowired stockRepository sr;
 	@Autowired StockInfoRepository sir;
 	
 	
 
-
+	@ResponseBody
 	@GetMapping("/chart")
-	public String chart(@RequestParam("num") Long num, Model model) {
-		System.out.println(num);
+	public List<StockInfo> chart(@RequestParam("num") Long num, Model model) {
+		Stock stock=sr.findByid(num);
+		model.addAttribute("list",sir.findAllByStock(stock));
+//		model.addAllAttributes(, "list");
 
-		Optional<Stock> stock=sr.findById(num);
-		model.addAllAttributes(sir.findAllBystock(stock));
-//		List<StockInfo> list=sir.findAllBystock(stock);
-		StockInfo stock2;
+
 		
-		return "chart";
+		return sir.findAllByStock(stock);
 	}
 }
