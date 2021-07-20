@@ -1,6 +1,7 @@
 package com.project.nmt.controller;
 
 import com.project.nmt.model.Article;
+import com.project.nmt.model.Stock;
 import com.project.nmt.service.ArticleService;
 import com.project.nmt.service.StockService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,12 @@ public class ArticleController {
 
     @GetMapping("/article")
     public String getArticleMain(Model model) {
-        List<String> keywords = stockService.getStockList();
+        List<Stock> stocks = stockService.getAllStocks();
         List<Article> articles = articleService.getAllArticles();
 
-        model.addAttribute("keywordList", keywords);
+        model.addAttribute("stockList", stocks);
         model.addAttribute("articleList", articles);
+
 
         return "article/article-main";
     }

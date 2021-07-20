@@ -1,12 +1,14 @@
 package com.project.nmt.model;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @NoArgsConstructor
 @Entity
 public class Stock {
@@ -24,8 +26,9 @@ public class Stock {
 
 
     @Builder
-    public Stock(String name, int quantity) {
+    public Stock(String name, String keyword, int quantity) {
         this.name = name;
+        this.keyword = keyword;
         this.quantity = quantity;
     }
 }

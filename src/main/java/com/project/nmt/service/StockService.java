@@ -1,5 +1,6 @@
 package com.project.nmt.service;
 
+import com.project.nmt.model.Stock;
 import com.project.nmt.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,10 @@ public class StockService {
 
     public List<String> getStockList() {
         return stockRepository.findAllStockName();
+    }
+
+    public List<Stock> getAllStocks() {
+        return stockRepository.findAll();
     }
     
 }

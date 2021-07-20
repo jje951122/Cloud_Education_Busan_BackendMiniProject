@@ -7,9 +7,12 @@
     </head>
 
     <body>
-        <div th:each="keyword : ${keywordList}">
+        <div th:each="stock : ${stockList}">
+            <h1 th:text="${stock.keyword}"></h1>
             <ul th:each="article : ${articleList}">
-
+                <li th:if="${article.keyword == stock.keyword}">
+                    <a th:href="${article.url}" th:text="${article.title}"></a>
+                </li>
             </ul>
         </div>
     </body>
