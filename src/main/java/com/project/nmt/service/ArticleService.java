@@ -30,4 +30,8 @@ public class ArticleService {
         return articleRepository.findAllByKeyword(keyword);
     }
 
+    public List<Article> getAllArticles() {
+        return articleRepository.findAll();
+    }
+
 }

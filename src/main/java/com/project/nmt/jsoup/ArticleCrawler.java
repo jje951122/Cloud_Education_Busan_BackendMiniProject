@@ -1,6 +1,8 @@
 package com.project.nmt.jsoup;
 
 import com.project.nmt.model.Article;
+import com.project.nmt.repository.StockRepository;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -11,17 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Component
 public class ArticleCrawler {
 
-    public static final String[] KEYWORDS = {"감자", "고구마", "옥수수", "당근", "대파", "양파", "마늘"};
+    private final StockRepository stockRepository;
 
     public List<Article> scrapAll() {
         final String BASE_URL = "https://search.naver.com/search.naver?where=news&sm=tab_jum&query=";
         final int ARTICLE_NUM = 10;
+        List<String> keyWords = stockRepository.findAllStockName();
         List<Article> articles = new ArrayList<>();
 
-        for (String keyword : KEYWORDS) {
+        for (String keyword : keyWords) {
             Document document = null;
             try {
                 document = Jsoup.connect(BASE_URL + keyword).get();
