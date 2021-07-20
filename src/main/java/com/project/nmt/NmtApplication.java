@@ -1,10 +1,5 @@
 package com.project.nmt;
 
-import com.project.nmt.model.Stock;
-import com.project.nmt.repository.StockRepository;
-import com.project.nmt.service.ArticleService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +17,5 @@ public class NmtApplication implements CommandLineRunner {
         // 현재 우리 db는 인메모리 db인 h2이기 때문에, 내용이 계속 날라가게 되어있습니다.
         // 때문에 여따가 데이터를 넣어주는 코드를 박아두고 개발하시면, 서버를 다시 띄워도 얘가 넣어줍니다.
         // application.properties를 수정하셔서 서버를 꺼도 날라가지 않는 db를 사용하셔도 됩니다.
-
     }
 }
