@@ -41,16 +41,16 @@ public class DataSetting {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		String end_dt = format.format(now);
-		String start_dt = "2020-01-01";//"2018-01-01";
+		String start_dt = "2019-07-01";//"2018-01-01";
 		// ㅁ나ㅣㅓ이ㅏㅁ너아ㅣㄴ머
 		// 고구마, 감자, 대파, 배추, 양파, 무, 고추, 마늘, 부추, 파프리카
-		String categoryCode[] = { "100", "100", "200", "200", "200", "200", "200",  "200" };
-		String item[] = { "고구마", "감자", "대파", "배추", "양파", "딸기", "고추",  "파프리카" };
-		String itemCode[] = { "151", "152", "246", "211", "245", "226", "243",  "256" };//idx7까지 잘되네
-		String kindCode[] = { "00", "01", "00", "01", "00", "00", "00",  "00" };
+		String categoryCode[] = { "100", "100", "200", "200", "200", "200", "200",  "200", "200","200" };
+		String item[] = { "고구마", "감자", "대파", "배추", "양파", "딸기", "고추",  "파프리카", "호박", "미나리" };
+		String itemCode[] = { "151", "152", "246", "211", "245", "226", "243",  "256" ,"224","252"};//idx7까지 잘되네
+		String kindCode[] = { "00", "01", "00", "01", "00", "00", "00",  "00","01","00" };
 		
 		JsonParser jsonParser = JsonParserFactory.getJsonParser();
-		for (int idx = 0; idx < 8; idx++) {
+		for (int idx = 0; idx < 1; idx++) {
 			System.out.println(idx);
 			// 요청 URL
 			URL url = null;
@@ -106,10 +106,6 @@ public class DataSetting {
 		return prices;
 	}
 
-	@GetMapping("/chart")
-	public String chart() {
 
-		return "chart";
-	}
 
 }
