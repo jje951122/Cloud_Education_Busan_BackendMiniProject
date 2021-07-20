@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -27,17 +26,7 @@ public class ArticleController {
         model.addAttribute("stockList", stocks);
         model.addAttribute("articleList", articles);
 
-
         return "article/article-main";
-    }
-
-    @GetMapping("/article/list/{keyword}")
-    public String getArticleList(@PathVariable("keyword") String keyword, Model model) {
-        List<Article> articles = articleService.getArticlesByKeyword(keyword);
-
-        model.addAttribute("articleList", articles);
-
-        return "article/article-list";
     }
 
 }

@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
+<head th:replace="fragment/header"></head>
 
-    <body>
-        <div th:each="stock : ${stockList}">
-            <h1 th:text="${stock.keyword}"></h1>
-            <ul th:each="article : ${articleList}">
-                <li th:if="${article.keyword == stock.keyword}">
-                    <a th:href="${article.url}" th:text="${article.title}"></a>
-                </li>
-            </ul>
+<body>
+<nav th:replace="fragment/navbar"></nav>
+
+<div class="container">
+    <div th:each="stock : ${stockList}" style="display: inline-block">
+        <div class="card border-success mb-3" style="max-width: 18rem; float: left; margin-right: 30px; margin-top: 50px; margin-bottom: 50px; display: inline-block">
+            <div class="card-header bg-transparent border-success" th:text="${stock.keyword}" style="text-align: center"></div>
+            <div th:each="article : ${articleList}" th:if="${stock.keyword == article.keyword}" class="card-body text-success"
+                 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <a class="card-text" th:text="${article.title}" th:href="${article.url}" target="_blank"></a>
+            </div>
+            <div class="card-footer bg-transparent border-success" style="text-align: center">
+                <a th:href="'https://search.naver.com/search.naver?where=news&sm=tab_jum&query=' + ${stock.keyword}">기사 더 보기</a>
+            </div>
         </div>
-    </body>
+    </div>
+</div>
+
+<footer th:replace="fragment/footer"></footer>
+</body>
 
 </html>
