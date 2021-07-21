@@ -1,8 +1,11 @@
 package com.project.nmt.model;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@Getter
 @Entity
 public class OrderLog {
 
@@ -12,9 +15,9 @@ public class OrderLog {
 
     private LocalDate boughtDate;
     private LocalDate soldDate;
-    private int boughtPrice;
-    private int soldPrice;
-    private int soldQuantity;
+    private Integer boughtPrice;
+    private Integer soldPrice;
+    private Integer soldQuantity;
 
     @ManyToOne
     private User user;

@@ -10,4 +10,5 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     @Query("select s.name from Stock s")
     List<String> findAllStockName();
+
 }
