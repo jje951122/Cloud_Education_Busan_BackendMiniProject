@@ -2,7 +2,6 @@ package com.project.nmt.model;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Fetch;
 
 import lombok.Data;
 

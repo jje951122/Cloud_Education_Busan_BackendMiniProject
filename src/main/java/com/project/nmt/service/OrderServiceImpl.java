@@ -1,97 +1,75 @@
 package com.project.nmt.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.nmt.model.Order;
+import com.project.nmt.model.OrderLog;
+import com.project.nmt.model.Stock;
 import com.project.nmt.model.StockInfo;
 import com.project.nmt.model.User;
+import com.project.nmt.repository.OrderLogRepository;
 import com.project.nmt.repository.OrderRepository;
+import com.project.nmt.repository.UserRepository;
 
-import net.bytebuddy.agent.builder.AgentBuilder.RedefinitionStrategy.BatchAllocator.ForTotal;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 	@Autowired
 	OrderRepository orderRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	OrderLogRepository orderLogRepository;
 	
 	@Override
-	public Map<String, Object> buy(User user, StockInfo stockInfo, List<Order> list, Long totalPrice, int cnt) {
-		Map<String, Object> map = new HashMap<>();
+	public void buy(User user, StockInfo stockInfo, Order order, Long totalPrice, int cnt) {
+		//매수한 금액만큼 계좌에서 차감
 		int updateBudget=(int) (user.getBudget()-totalPrice);
+		userRepository.updateBudget(updateBudget, user.getId());
 		
-		int totalCnt=0;
-		int orderTotalPrice=0;
-		List<Long> orderIdList=new ArrayList<Long>();
-		for(int i=0;i<list.size();i++) {
-			Order order=list.get(i);
-			orderIdList.add(order.getId());
-			int nowOrderCnt=order.getQuantity();
-			totalCnt+=nowOrderCnt;
-			orderTotalPrice+=order.getPrice()*nowOrderCnt;
-		}
-		for(int i=0;i<orderIdList.size();i++) {
-			orderRepository.deleteById(orderIdList.get(i));
-		}
-		
-		
+		int totalCnt=order.getQuantity();
+		int orderTotalPrice=order.getPrice()*totalCnt;
+		//매수후 평가금액
 		int afterAvgPrice=(int) ((orderTotalPrice+totalPrice)/(totalCnt+cnt));
-		map.put("afterAvgPrice", afterAvgPrice);
 		
+		//기존의 order 삭제
+		orderRepository.deleteById(order.getId());
 		
-		
-		Order order = new Order();
-		order.setBoughtDate(LocalDate.now());
-		order.setPrice(afterAvgPrice);
-		order.setQuantity(cnt+totalCnt);
-		order.setStock(stockInfo.getStock());
-		order.setUser(user);
-		map.put("budget", updateBudget);
-		map.put("order", order);
-		
-		return map;
+		//이전 주문내역과 현재 매수로 갱신한 새로운 order삽입
+		Order newOrder = new Order();
+		newOrder.setBoughtDate(LocalDate.now());
+		newOrder.setPrice(afterAvgPrice);
+		newOrder.setQuantity(cnt+totalCnt);
+		newOrder.setStock(stockInfo.getStock());
+		newOrder.setUser(user);
+		orderRepository.save(newOrder);
 	}
 
 	@Override
-	public Map<String, Object> sell(User user, StockInfo stockInfo, List<Order> list, Long totalPrice, int cnt) {
-		Map<String, Object> map = new HashMap<>();
-		int updateBudget=(int) (user.getBudget()+totalPrice);
-		Map<Long, Integer> updateOrderInfo = new HashMap<>();//order.id, 바껴야하는 order.quantity값 -> 이걸 넘겨줘서 update해줄 예정 /0이면 삭제 
-		
-		int orderTotalPrice=0;
-		int totalCnt=0;
-		int count=cnt;
-		for(int i=0;i<list.size();i++) {
-			Order order=list.get(i);
-			int nowOrderCnt=order.getQuantity();
-			totalCnt+=nowOrderCnt;
-			orderTotalPrice+=order.getPrice()*nowOrderCnt;
-			
-			if(count==0)continue;
-			else if(nowOrderCnt<=cnt) {
-				updateOrderInfo.put(order.getId(), 0);
-				count-=nowOrderCnt;
-			}
-			else {
-				updateOrderInfo.put(order.getId(), nowOrderCnt-cnt);
-				count=0;
-			}
+	public void sell(User user, StockInfo stockInfo, Stock nowStock, Order order, Long totalPrice, int cnt) {
+		if(order.getQuantity()==cnt) {//판매 개수와 보유 개수가 같으면 삭제
+			orderRepository.deleteOrderById(order.getId());
 		}
-		int beforeAvgPrice=(int) orderTotalPrice/totalCnt;
-		map.put("beforePrice", beforeAvgPrice);
-		int afterAvgPrice=(int) ((orderTotalPrice-totalPrice)/(totalCnt-cnt));
-		map.put("updateOrderInfo", updateOrderInfo);
-		
-		map.put("afterPrice", afterAvgPrice);
-		System.out.println(map);
-		return map;
+		else {//보유개수가 더 많으면 차감
+			orderRepository.updateQuantityById(order.getId(), order.getQuantity()-cnt);
+		}
 
+       //현재 가격 기준 판매한 금액만큼 계좌에 합산
+		userRepository.updateBudget(stockInfo.getPrice()*cnt, user.getId());
+		
+		//판것에 대해 log
+		OrderLog orderLog=new OrderLog();
+		orderLog.setSoldDate(LocalDate.now());
+		orderLog.setSoldPrice(stockInfo.getPrice());
+		orderLog.setBoughtPrice(order.getPrice());
+		orderLog.setSoldQuantity(cnt);
+		orderLog.setUser(user);
+		orderLog.setStock(nowStock);
+		orderLogRepository.save(orderLog);
 	}
 
 }

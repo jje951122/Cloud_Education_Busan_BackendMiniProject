@@ -2,7 +2,7 @@ package com.project.nmt.model;
 
 import javax.persistence.*;
 
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.Setter;
 

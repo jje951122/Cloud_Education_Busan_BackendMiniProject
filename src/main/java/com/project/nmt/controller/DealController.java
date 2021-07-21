@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +34,11 @@ public class DealController {//품목 차트, 품목 거래를 위한 창을 띄
 	@GetMapping("/nowProduct")
 	public String nowProduct(@RequestParam("num") Long num, Model model, HttpSession session) {
 		Stock stock = sr.findByid(num);
+		
 		model.addAttribute("name", stock.getKeyword());
 		model.addAttribute("stockId", num);
 		session.setAttribute("stockId", stock.getId());
+		
 		// 당일 가격, 하루전과의 변동률
 		LocalTime now = LocalTime.now();
 		LocalDate today;
@@ -53,6 +54,7 @@ public class DealController {//품목 차트, 품목 거래를 위한 창을 띄
 		}
 		model.addAttribute("opt", opt);
 		
+		//현재가격과 전날가격과의 변동사항
 		StockInfo nowStockInfo = sir.findAllByStockAndInfoDate(stock, today);
 		Long todayPrice = (long) nowStockInfo.getPrice();
 		model.addAttribute("todayPrice", todayPrice);
@@ -76,5 +78,4 @@ public class DealController {//품목 차트, 품목 거래를 위한 창을 띄
 		// 차트정보를 json데이터로 전달
 		return chartService.json_get(stock);
 	}
-
 }
