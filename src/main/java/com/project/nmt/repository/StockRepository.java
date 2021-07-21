@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-    @Query("select s.name from Stock s")
-    List<String> findAllStockName();
+    @Query("select s.keyword from Stock s")
+    List<String> findAllStockKeyword();
 
 }

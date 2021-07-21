@@ -22,7 +22,7 @@ public class ArticleCrawler {
     public List<Article> scrapAll() {
         final String BASE_URL = "https://search.naver.com/search.naver?where=news&sm=tab_jum&query=";
         final int ARTICLE_NUM = 10;
-        List<String> keyWords = stockRepository.findAllStockName();
+        List<String> keyWords = stockRepository.findAllStockKeyword();
         List<Article> articles = new ArrayList<>();
 
         for (String keyword : keyWords) {

@@ -14,7 +14,7 @@ public class StockService {
     private final StockRepository stockRepository;
 
     public List<String> getStockList() {
-        return stockRepository.findAllStockName();
+        return stockRepository.findAllStockKeyword();
     }
 
     public List<Stock> getAllStocks() {
