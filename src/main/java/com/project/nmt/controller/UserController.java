@@ -2,6 +2,7 @@ package com.project.nmt.controller;
 
 import javax.servlet.http.HttpSession;
 
+import com.project.nmt.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class UserController {
 
-	private final UserRepository userRepository;
+	private final UserService userService;
 
 	@GetMapping("/signup")
 	public String getSignup() {
@@ -26,15 +27,7 @@ public class UserController {
 
 	@PostMapping("/signup")
 	public String postSignup(SignupForm signUpForm) {
-		User user = User.builder()
-				.userId(signUpForm.getUserId())
-				.password(signUpForm.getPassword())
-				.name(signUpForm.getName())
-				.age(signUpForm.getAge())
-				.email(signUpForm.getEmail())
-				.build();
-
-		userRepository.save(user);
+		userService.createNewUser(signUpForm);
 
 		return "redirect:/";
 	}
@@ -46,7 +39,7 @@ public class UserController {
 
 	@PostMapping("/login")
 	public String postLogin(LogInDto logIn, HttpSession session) {
-		User user = userRepository.findByUserId(logIn.getUserId());
+		User user = userService.getOneByUserId(logIn.getUserId());
 
 		session.setAttribute("id", user);
 
