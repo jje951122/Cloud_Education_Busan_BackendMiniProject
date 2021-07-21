@@ -1,15 +1,18 @@
 package com.project.nmt.model;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @NoArgsConstructor
 @Table(name = "\"user\"")
 @Entity
+@Table(name="\"user\"")
 public class User {
 
     @Id
