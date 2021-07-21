@@ -1,12 +1,16 @@
 package com.project.nmt.model;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @NoArgsConstructor
 @Entity
 public class Stock {
@@ -21,11 +25,13 @@ public class Stock {
 
     @OneToMany(mappedBy = "stock")
     private final List<StockInfo> stockInfos = new ArrayList<>();
-
-
+    
     @Builder
-    public Stock(String name, int quantity) {
-        this.name = name;
-        this.quantity = quantity;
-    }
+	public Stock(String name, String keyword, int quantity) {
+		super();
+		this.name = name;
+		this.keyword = keyword;
+		this.quantity = quantity;
+	}
+    
 }

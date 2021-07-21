@@ -18,17 +18,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.nmt.model.StockInfo;
+import com.project.nmt.repository.StockInfoRepository;
 import com.project.nmt.repository.stockRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
 
+@RequiredArgsConstructor
 @RestController
 public class dataSetting {
 	String API = "ef02eb73-7007-4884-8401-e1bee7361066";
 
-	@Autowired
-	stockRepository sr;
+	private final StockInfoRepository stockInfoRepository;
 	
 	@SuppressWarnings("unchecked")
 	@GetMapping("/setData")
@@ -85,7 +89,7 @@ public class dataSetting {
 			info.setPrice(Integer.parseInt(((String) (nowPrice.get("price"))).replace(",", "")));
 			String[] date=nowPrice.get("regday").toString().split("/");
 			info.setInfoDate(LocalDate.of(Integer.parseInt((String)nowPrice.get("yyyy")) , Integer.parseInt(date[0]), Integer.parseInt(date[1])));
-			sr.save(info);
+			stockInfoRepository.save(info);
 		}
 		
 		return prices;

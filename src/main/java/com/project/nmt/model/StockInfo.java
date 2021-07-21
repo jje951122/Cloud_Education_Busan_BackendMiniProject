@@ -3,11 +3,13 @@ package com.project.nmt.model;
 import javax.persistence.*;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class StockInfo {
 
     @Id
@@ -19,4 +21,6 @@ public class StockInfo {
 
     @ManyToOne
     private Stock stock;
+    
+
 }

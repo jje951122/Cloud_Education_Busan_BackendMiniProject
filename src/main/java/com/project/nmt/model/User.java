@@ -1,14 +1,19 @@
 package com.project.nmt.model;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import com.project.nmt.dto.UserBudgetDto;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @Entity
+@Getter
 public class User {
 
     @Id
@@ -26,6 +31,7 @@ public class User {
     private final List<Order> order = new ArrayList<>();
 
 
+    
     @Builder
     public User(String userId, String password, String name, int age, String email, int budget) {
         this.userId = userId;
