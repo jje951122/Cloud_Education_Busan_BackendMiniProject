@@ -10,7 +10,7 @@
 	google.load('visualization', '1', {
 		'packages': ['corechart']
 	});
-	
+
 	google.setOnLoadCallback(drawChart); //라이브러리를 불러오는 작업이 완료되었으면 drawChart작업을 실행하라는 뜻.
 	function drawChart() {
 		var jsonData = $.ajax({
@@ -55,7 +55,7 @@
 <div>
 	<script>
 		$(document).ready(function () {
-			var count= $("#cnt").val();
+			var count = $("#cnt").val();
 			$("#cnt").on("change keyup paste", function () {
 				count = $(this).val();
 			})
@@ -67,11 +67,13 @@
 
 					data: {cnt: count, flag: 0},
 					success: function (data) {
-						if(!data)
+						if (!data)
 							alert("잔액 부족");
-						else
+						else {
 							alert("매수 완료");
-					},
+
+						}
+					}
 				});
 			});
 
@@ -82,10 +84,11 @@
 
 					data: {cnt: count, flag: 1},
 					success: function (data) {
-						if(!data)
+						if (!data)
 							alert("보유수량 부족");
-						else
+						else {
 							alert("매도완료");
+						}
 					}
 				});
 			});
