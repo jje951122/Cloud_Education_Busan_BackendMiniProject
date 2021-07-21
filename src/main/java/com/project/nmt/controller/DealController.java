@@ -2,15 +2,13 @@ package com.project.nmt.controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.json.simple.JSONArray;
+import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.project.nmt.dto.ChartDto;
 import com.project.nmt.model.Stock;
 import com.project.nmt.model.StockInfo;
 import com.project.nmt.repository.StockInfoRepository;
@@ -28,7 +24,7 @@ import com.project.nmt.repository.stockRepository;
 import com.project.nmt.service.ChartService;
 
 @Controller
-public class DealController {
+public class DealController {//품목 차트, 품목 거래를 위한 창을 띄움
 	@Autowired
 	stockRepository sr;
 	@Autowired
@@ -37,11 +33,11 @@ public class DealController {
 	ChartService chartService;
 
 	@GetMapping("/nowProduct")
-	public String nowProduct(@RequestParam("num") Long num, Model model) {
+	public String nowProduct(@RequestParam("num") Long num, Model model, HttpSession session) {
 		Stock stock = sr.findByid(num);
 		model.addAttribute("name", stock.getKeyword());
-		model.addAttribute("id", num);
-
+		model.addAttribute("stockId", num);
+		session.setAttribute("stockId", stock.getId());
 		// 당일 가격, 하루전과의 변동률
 		LocalTime now = LocalTime.now();
 		LocalDate today;
@@ -56,11 +52,12 @@ public class DealController {
 			yesterday = today.minusDays(1);
 		}
 		model.addAttribute("opt", opt);
-
-		Long todayPrice = sir.findAllByStockAndInfoDate(stock, today);
+		
+		StockInfo nowStockInfo = sir.findAllByStockAndInfoDate(stock, today);
+		Long todayPrice = (long) nowStockInfo.getPrice();
 		model.addAttribute("todayPrice", todayPrice);
 
-		Long yesterdayPrice = sir.findAllByStockAndInfoDate(stock, today);
+		Long yesterdayPrice = (long) sir.findAllByStockAndInfoDate(stock, today).getPrice();
 		double diff= ((double) ((todayPrice - yesterdayPrice) / (double) yesterdayPrice));
 		String temp="";
 		if(diff>=0)
@@ -74,7 +71,7 @@ public class DealController {
 
 	@PostMapping("/chart")
 	@ResponseBody
-	public ResponseEntity<JSONObject> ChartInit(@RequestParam("num") Long num) {
+	public ResponseEntity<JSONObject> ChartInit(@RequestParam("num") Long num) {//차트를 띄우기 위한 데이터 요청
 		Stock stock = sr.findByid(num);
 		// 차트정보를 json데이터로 전달
 		return chartService.json_get(stock);

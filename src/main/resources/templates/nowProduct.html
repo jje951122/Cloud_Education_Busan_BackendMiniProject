@@ -1,16 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
 <script th:inline="javascript">
-
 	/*<![CDATA[*/
-	var id = "[[${id}]]";
+	var id = "[[${stockId}]]";
 	/*]]>*/
 	google.load('visualization', '1', {
 		'packages': ['corechart']
 	});
+	
 	google.setOnLoadCallback(drawChart); //라이브러리를 불러오는 작업이 완료되었으면 drawChart작업을 실행하라는 뜻.
 	function drawChart() {
-
 		var jsonData = $.ajax({
 			type: "POST",
 			url: "/chart",
@@ -22,7 +24,6 @@
 			data: {num: id},
 
 		}).responseText;
-
 
 		//데이터테이블 생성
 		var data = new google.visualization.DataTable(jsonData);
@@ -50,8 +51,50 @@
 	현재 가격 : [[${todayPrice}]]([[${diffPer}]])
 	[[${opt}]]
 </div>
+
 <div>
-	
+	<script>
+		$(document).ready(function () {
+			var count= $("#cnt").val();
+			$("#cnt").on("change keyup paste", function () {
+				count = $(this).val();
+			})
+
+			$("button[name='buy']").on("click", function () {
+				$.ajax({
+					type: "POST",
+					url: "/order",
+
+					data: {cnt: count, flag: 0},
+					success: function (data) {
+						if(!data)
+							alert("잔액 부족");
+						else
+							alert("매도완료");
+					},
+				});
+			});
+
+			$("button[name='sell']").on("click", function () {
+				$.ajax({
+					type: "POST",
+					url: "/order",
+
+					data: {cnt: count, flag: 1},
+					success: function (data) {
+						if(!data)
+							alert("보유수량 부족");
+						else
+							alert("매도완료");
+					}
+				});
+			});
+		});
+	</script>
+
+	수량 : <input type="number" id="cnt" value="1" /><br>
+	<button name="buy">매수</button>
+	<button name="sell">매도</button>
 
 
 </div>

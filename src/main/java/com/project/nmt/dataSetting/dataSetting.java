@@ -17,6 +17,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.project.nmt.model.Stock;
 import com.project.nmt.model.StockInfo;
 import com.project.nmt.repository.StockInfoRepository;
@@ -114,5 +115,4 @@ public class dataSetting {
 		}
 		return prices;
 	}
-
 }

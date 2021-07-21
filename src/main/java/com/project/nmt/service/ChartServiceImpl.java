@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.project.nmt.model.Stock;
 import com.project.nmt.model.StockInfo;
@@ -20,12 +19,11 @@ public class ChartServiceImpl implements ChartService{
 	StockInfoRepository sir;
 	
 	@SuppressWarnings("unchecked")
-	public ResponseEntity<JSONObject> json_get(Stock stock){
+	public ResponseEntity<JSONObject> json_get(Stock stock){//구글차트를 위한 데이터 처리->json변환
 		ResponseEntity<JSONObject>  entity=null;
 		List<StockInfo> list = sir.findAllByStock(stock);		
 		JSONObject data =new JSONObject();
 
-		ModelAndView modelAndView = new ModelAndView();
 		JSONObject col1 =new JSONObject();
 		JSONObject col2 =new JSONObject();
 		JSONArray title =new JSONArray();
@@ -67,7 +65,6 @@ public class ChartServiceImpl implements ChartService{
 			System.out.println(" 에러            -- ");
 			entity =new ResponseEntity<JSONObject>(HttpStatus.BAD_REQUEST);
 		}
-		return entity;
-				
+		return entity;			
 	}
 }
