@@ -31,7 +31,8 @@ public class StockController {
         User user = userRepository.findById(id).get();
         List<OrderLog> list = orderLogService.getListByUserAndDate(user, startDate, endDate);
 
-        model.addAttribute("orderLostList", list);
+        model.addAttribute("user", user);
+        model.addAttribute("orderLogList", list);
 
         return "stock-transaction";
     }

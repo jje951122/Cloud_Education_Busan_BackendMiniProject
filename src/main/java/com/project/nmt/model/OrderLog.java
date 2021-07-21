@@ -1,11 +1,14 @@
 package com.project.nmt.model;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
+@NoArgsConstructor
 @Entity
 public class OrderLog {
 
@@ -24,4 +27,15 @@ public class OrderLog {
 
     @ManyToOne
     private Stock stock;
+
+    @Builder
+    public OrderLog(LocalDate boughtDate, LocalDate soldDate, Integer boughtPrice, Integer soldPrice, Integer soldQuantity, User user, Stock stock) {
+        this.boughtDate = boughtDate;
+        this.soldDate = soldDate;
+        this.boughtPrice = boughtPrice;
+        this.soldPrice = soldPrice;
+        this.soldQuantity = soldQuantity;
+        this.user = user;
+        this.stock = stock;
+    }
 }
