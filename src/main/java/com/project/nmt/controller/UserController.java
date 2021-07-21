@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.project.nmt.dto.LogInDto;
-import com.project.nmt.dto.signupForm;
+import com.project.nmt.dto.SignupForm;
 import com.project.nmt.model.User;
 import com.project.nmt.repository.UserRepository;
 
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-public class userController {
+public class UserController {
 	private final UserRepository userRepository;
 	
 	
@@ -25,7 +25,7 @@ public class userController {
 	}
 	
 	@PostMapping("/signup")
-	public String postSignup(signupForm signUpForm) {		
+	public String postSignup(SignupForm signUpForm) {
 		User user = User.builder()
 		.userId(signUpForm.getUserId())
 		.password(signUpForm.getPassword())
