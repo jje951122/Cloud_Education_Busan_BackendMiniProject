@@ -35,11 +35,12 @@ public class OrderController {
 	@ResponseBody
 	@PostMapping("/order")
 	public Boolean orderProduct(HttpSession session, @RequestParam int flag, @RequestParam("cnt") int cnt) {//flag 0매수 1매도
-		User user=(User) session.getAttribute("id");
+		User user=(User) session.getAttribute("user");
 		Long num=(Long) session.getAttribute("stockId");
 		System.out.println(num);
-		Stock nowStock = stockRepository.findById(num).get();
-		System.out.println(nowStock);
+		Stock nowStock = stockRepository.findStockById(num);
+		System.out.println(nowStock.getId());
+	
 
 		LocalDateTime now=LocalDateTime.now();
 		LocalDate today=null;
@@ -50,7 +51,7 @@ public class OrderController {
 		}
 		//품목에 대한 현재 가격
 		StockInfo nowStockInfo = stockInfoRepository.findAllByStockAndInfoDate(nowStock, today);
-		System.out.println(nowStockInfo);
+		
 		
 		//현재 거래 금액
 		Long totalPrice=(long) (nowStockInfo.getPrice() *cnt);

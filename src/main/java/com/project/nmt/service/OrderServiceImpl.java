@@ -27,9 +27,11 @@ public class OrderServiceImpl implements OrderService {
 	public void buy(User user, StockInfo stockInfo, Order order, Long totalPrice, int cnt) {
 		// 매수한 금액만큼 계좌에서 차감
 		int updateBudget = (int) (user.getBudget() - totalPrice);
+		System.out.println("test");
 		userRepository.updateBudget(updateBudget, user.getId());
 		int afterAvgPrice=(int) (totalPrice/cnt);
 		int totalCnt=cnt;
+		
 		if (order != null) {
 			totalCnt = order.getQuantity();
 			int orderTotalPrice = order.getPrice() * totalCnt;

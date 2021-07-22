@@ -28,6 +28,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	@Modifying
 	@Query("update Order o SET o.quantity=?2 WHERE o.id=?1")
 	void updateQuantityById(Long orderId, int count);//팔았을떄 보유내역에서 감소
+	
 
 	
 }

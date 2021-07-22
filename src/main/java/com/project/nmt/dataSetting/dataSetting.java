@@ -1,9 +1,14 @@
 package com.project.nmt.dataSetting;
 
+import com.project.nmt.model.OrderLog;
 import com.project.nmt.model.Stock;
 import com.project.nmt.model.StockInfo;
+import com.project.nmt.model.User;
+import com.project.nmt.repository.OrderLogRepository;
 import com.project.nmt.repository.StockInfoRepository;
 import com.project.nmt.repository.StockRepository;
+import com.project.nmt.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
@@ -32,10 +37,15 @@ public class dataSetting {
 	StockRepository stockRepository;
 	@Autowired
 	StockInfoRepository stockInfoRepository;
-
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	OrderLogRepository orderLogRepository;
+	
+	
+	@GetMapping("/getProductData")
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	@GetMapping("/setData")
-	public List<Map<String, Object>> getString() throws IOException {
+	public String getProductData() throws IOException {
 		List<Map<String, Object>> prices = null;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
@@ -85,13 +95,7 @@ public class dataSetting {
 			Map<String, Object> map = jsonParser.parseMap(json.toString());
 			map = (Map<String, Object>) map.get("data");
 			prices = (List<Map<String, Object>>) map.get("item");
-			Stock stock = new Stock();
-			stock.setName(item[idx]);
-			stock.setKeyword(keyword[idx]);
-
-			stock.setQuantity(1000);
-			stock.setId((long) idx + 1);
-			stockRepository.save(stock);
+			Stock stock = stockRepository.findStockByKeyword(keyword[idx]);
 
 			for (int i = 0; i < prices.size(); i++) {// 각 품목뵬 받아온 데이터 db저장
 				StockInfo info = new StockInfo();
@@ -107,6 +111,122 @@ public class dataSetting {
 				}
 			}
 		}
-		return prices;
+		return "success StockInfo Data";
 	}
+	@GetMapping("/getData")
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	public String getData(){
+		Stock sweetPotato = Stock.builder()
+                .name("sweetPotato")
+                .keyword("고구마")
+                .quantity(100)
+                .build();
+        Stock potato = Stock.builder()
+                .name("potato")
+                .keyword("감자")
+                .quantity(300)
+                .build();
+
+        Stock springOnion = Stock.builder()
+                .name("springOnion")
+                .keyword("대파")
+                .quantity(450)
+                .build();
+
+        Stock spinach = Stock.builder()
+                .name("spinach")
+                .keyword("시금치")
+                .quantity(150)
+                .build();
+
+        Stock onion = Stock.builder()
+                .name("onion")
+                .keyword("양파")
+                .quantity(400)
+                .build();
+
+        Stock perillaLeaf = Stock.builder()
+                .name("perillaLeaf")
+                .keyword("깻잎")
+                .quantity(900)
+                .build();
+        Stock chili = Stock.builder()
+                .name("chili")
+                .keyword("고추")
+                .quantity(900)
+                .build();
+        Stock paprika = Stock.builder()
+                .name("paprika")
+                .keyword("파프리카")
+                .quantity(900)
+                .build();
+        Stock pumpkin = Stock.builder()
+                .name("pumpkin")
+                .keyword("호박")
+                .quantity(900)
+                .build();
+        Stock waterParsley = Stock.builder()
+                .name("waterParsley")
+                .keyword("미나리")
+                .quantity(900)
+                .build();
+
+        stockRepository.save(potato);
+        stockRepository.save(sweetPotato);
+        stockRepository.save(springOnion);
+        stockRepository.save(spinach);
+        stockRepository.save(onion);
+        stockRepository.save(perillaLeaf);
+        stockRepository.save(chili);
+        stockRepository.save(paprika);
+        stockRepository.save(pumpkin);
+        stockRepository.save(waterParsley);
+        
+        User user = User.builder()
+                .name("park")
+                .userId("123")
+                .password("123")
+                .email("asdf@naver.com")
+                .age(17)
+                .build();
+
+        userRepository.save(user);
+
+
+        OrderLog ol1 = OrderLog.builder()
+                .boughtPrice(5000)
+                .soldDate(LocalDate.of(2021, 7, 3))
+                .soldPrice(6000)
+                .soldQuantity(10)
+                .stock(potato)
+                .user(user)
+                .build();
+        OrderLog ol2 = OrderLog.builder()
+                .boughtPrice(4200)
+                .stock(potato)
+                .user(user)
+                .build();
+        OrderLog ol3 = OrderLog.builder()
+                .boughtPrice(3500)
+                .soldDate(LocalDate.of(2021, 7, 6))
+                .soldPrice(3000)
+                .soldQuantity(15)
+                .stock(sweetPotato)
+                .user(user)
+                .build();
+        OrderLog ol4 = OrderLog.builder()
+                .boughtPrice(3000)
+                .stock(sweetPotato)
+                .user(user)
+                .build();
+        orderLogRepository.save(ol1);
+        orderLogRepository.save(ol2);
+        orderLogRepository.save(ol3);
+        orderLogRepository.save(ol4);
+        
+        return "success Start Data";
+	}
+	
+	
+	
 }

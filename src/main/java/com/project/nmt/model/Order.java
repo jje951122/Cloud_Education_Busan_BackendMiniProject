@@ -3,11 +3,15 @@ package com.project.nmt.model;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+
 import java.time.LocalDate;
 
 @Table(name = "\"order\"")
 @Entity
 @Data
+
 public class Order {
 
     @Id
