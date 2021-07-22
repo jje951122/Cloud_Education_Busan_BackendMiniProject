@@ -16,7 +16,6 @@ public class OrderLog {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private LocalDate boughtDate;
     private LocalDate soldDate;
     private Integer boughtPrice;
     private Integer soldPrice;
@@ -29,8 +28,7 @@ public class OrderLog {
     private Stock stock;
 
     @Builder
-    public OrderLog(LocalDate boughtDate, LocalDate soldDate, Integer boughtPrice, Integer soldPrice, Integer soldQuantity, User user, Stock stock) {
-        this.boughtDate = boughtDate;
+    public OrderLog(LocalDate soldDate, Integer boughtPrice, Integer soldPrice, Integer soldQuantity, User user, Stock stock) {
         this.soldDate = soldDate;
         this.boughtPrice = boughtPrice;
         this.soldPrice = soldPrice;

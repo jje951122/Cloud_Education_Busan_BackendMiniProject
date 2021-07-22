@@ -124,6 +124,6 @@ public class NmtApplication implements CommandLineRunner {
 //        orderLogRepository.save(ol3);
 //        orderLogRepository.save(ol4);
 
-        articleService.scrapAll();
+//        articleService.scrapAll();
     }
 }
