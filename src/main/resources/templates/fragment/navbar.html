@@ -19,7 +19,7 @@
         </div>
         <div th:unless="${session.user == null}">
           <span class="nav-item" th:text="${session.user.name} + '님 반갑습니다.'"></span>
-          <a class="btn btn-outline-secondary" href="/myPage" type="submit">
+          <a class="btn btn-outline-secondary" th:href="@{/user/info/{id}(id=${session.user.id})}" type="submit">
             <i class="fas fa-user"></i> My Page</a>&nbsp;
           <a class="btn btn-outline-secondary" href="/logOut" type="submit">
             <i class="fas fa-sign-out-alt"></i> Log out</a>

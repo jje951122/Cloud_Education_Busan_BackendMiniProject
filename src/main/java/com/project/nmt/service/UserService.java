@@ -2,6 +2,7 @@ package com.project.nmt.service;
 
 import com.project.nmt.dto.LogInDto;
 import com.project.nmt.dto.SignupForm;
+import com.project.nmt.dto.UserUpdateForm;
 import com.project.nmt.model.User;
 import com.project.nmt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,11 @@ public class UserService {
         User user = userRepository.findByUserId(logIn.getUserId()).orElseGet(User::new);
 
         return user.getPassword().equals(logIn.getPassword());
+    }
+
+    public void updateUser(User user, UserUpdateForm form) {
+        user.update(form);
+
+        userRepository.save(user);
     }
 }

@@ -1,5 +1,6 @@
 package com.project.nmt.model;
 
+import com.project.nmt.dto.UserUpdateForm;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,5 +38,14 @@ public class User {
         this.age = age;
         this.email = email;
         this.budget = budget;
+    }
+
+    public void update(UserUpdateForm form) {
+        if(!form.getEmail().equals("")) {
+            this.email = form.getEmail();
+        }
+        if(!form.getPassword().equals("")) {
+            this.password = form.getPassword();
+        }
     }
 }
