@@ -100,7 +100,6 @@ public class UserController {
 
 		userUpdateValidator.validate(form, errors);
 		if(errors.hasErrors()) {
-
 			return "user/update";
 		}
 

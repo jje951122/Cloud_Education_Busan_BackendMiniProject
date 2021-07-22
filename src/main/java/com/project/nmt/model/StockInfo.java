@@ -1,14 +1,17 @@
 package com.project.nmt.model;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
 @Getter
-@Setter
+@NoArgsConstructor
+
+@Entity
 public class StockInfo {
 
     @Id
@@ -21,4 +24,10 @@ public class StockInfo {
     @ManyToOne
     private Stock stock;
 
+    @Builder
+    public StockInfo(int price, LocalDate infoDate, Stock stock) {
+        this.price = price;
+        this.infoDate = infoDate;
+        this.stock = stock;
+    }
 }

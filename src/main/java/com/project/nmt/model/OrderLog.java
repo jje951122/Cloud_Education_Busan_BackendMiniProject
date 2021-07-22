@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @Entity
-@Setter
 public class OrderLog {
 
     @Id

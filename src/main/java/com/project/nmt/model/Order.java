@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Table(name = "\"order\"")
 @Entity
 @Data
-
 public class Order {
 
     @Id

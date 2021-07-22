@@ -14,4 +14,7 @@ public interface StockInfoRepository extends JpaRepository<StockInfo, Long> {
 
 	@Query("select s from StockInfo s where s.stock=?1 AND s.infoDate=?2")
 	StockInfo findAllByStockAndInfoDate(Stock stock,LocalDate today);//당일의 품목 가격을 확인
+
+	@Query("select s from StockInfo s where s.infoDate = (select max(s.infoDate) from StockInfo s)")
+    List<StockInfo> findAllRecentByKeyword();
 }

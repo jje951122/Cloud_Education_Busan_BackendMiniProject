@@ -14,7 +14,7 @@ public class StockService {
 
     private final StockRepository stockRepository;
 
-    public List<String> getStockList() {
+    public List<String> getStockKeywordList() {
         return stockRepository.findAllStockKeyword();
     }
 
@@ -37,5 +37,13 @@ public class StockService {
 
     public int getStockSize(int size) {
         return (int) stockRepository.count() / size;
+    }
+
+    public Stock getStockById(Long id) {
+        return stockRepository.findById(id).orElseGet(Stock::new);
+    }
+
+    public Stock getStockByName(String name) {
+        return stockRepository.findByName(name);
     }
 }
