@@ -28,7 +28,7 @@ public class StockController {
                                              @PathVariable("id") Long id,
                                              Model model) {
 
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findById(id).orElseGet(User::new);
         List<OrderLog> list = orderLogService.getListByUserAndDate(user, startDate, endDate);
 
         model.addAttribute("user", user);

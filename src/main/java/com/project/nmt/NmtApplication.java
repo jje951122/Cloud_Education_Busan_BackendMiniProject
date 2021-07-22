@@ -21,8 +21,6 @@ public class NmtApplication implements CommandLineRunner {
 
     @Autowired
     dataSetting dataSet;
-    
-
     @Autowired
     private ArticleService articleService;
 
