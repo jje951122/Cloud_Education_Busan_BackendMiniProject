@@ -1,13 +1,14 @@
 package com.project.nmt.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
-
-import lombok.Data;
-
 import java.time.LocalDate;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class StockInfo {
 
     @Id
