@@ -25,6 +25,7 @@ public class UserService {
                         .name(dto.getName())
                         .age(dto.getAge())
                         .email(dto.getEmail())
+                        .budget(10000)
                         .build();
 
         userRepository.save(user);
