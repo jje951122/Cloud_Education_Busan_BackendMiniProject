@@ -4,14 +4,12 @@ import com.project.nmt.model.Order;
 import com.project.nmt.model.Stock;
 import com.project.nmt.model.StockInfo;
 import com.project.nmt.model.User;
-import com.project.nmt.repository.OrderRepository;
-import com.project.nmt.repository.StockInfoRepository;
-import com.project.nmt.repository.StockRepository;
 import com.project.nmt.service.OrderService;
+import com.project.nmt.service.StockInfoService;
+import com.project.nmt.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -20,24 +18,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
-@Transactional
 @Controller
 public class OrderController {
 
-    private final OrderRepository orderRepository;
     private final OrderService orderService;
-    private final StockInfoRepository stockInfoRepository;
-    private final StockRepository stockRepository;
+    private final StockInfoService stockInfoService;
+    private final StockService stockService;
 
+    @Transactional
     @ResponseBody
-    @PostMapping("/order")
-    public Boolean orderProduct(HttpSession session, @RequestParam int flag, @RequestParam("cnt") int cnt) {//flag 0매수 1매도
+    @GetMapping("/order")
+    public Boolean orderProduct(HttpSession session, Long stockId, int flag, int cnt) {//flag 0매수 1매도
         User user = (User) session.getAttribute("user");
-        Long num = (Long) session.getAttribute("stockId");
-        System.out.println(num);
-        Stock nowStock = stockRepository.findById(num).orElseGet(Stock::new);
-        System.out.println(nowStock.getId());
-
+        Stock stock = stockService.getStockById(stockId);
 
         LocalDateTime now = LocalDateTime.now();
         LocalDate today;
@@ -47,24 +40,26 @@ public class OrderController {
             today = LocalDate.now();
         }
         //품목에 대한 현재 가격
-        StockInfo nowStockInfo = stockInfoRepository.findAllByStockAndInfoDate(nowStock, today);
-
+        StockInfo nowStockInfo = stockInfoService.findAllByStockAndInfoDate(stock, today);
 
         //현재 거래 금액
         Long totalPrice = ((long) nowStockInfo.getPrice() * cnt);
         //보유 품목에 대한 현황
-        Order order = orderRepository.findByUserAndStock(user, nowStock);
+        Order order = orderService.findByUserAndStock(user, stock);
 
         if (flag == 0) {//구매
-            if (user.getBudget() < totalPrice) {
+            if (user.getBudget() < totalPrice || stock.getQuantity() < cnt) {
                 return false;
             }
+
             orderService.buy(user, nowStockInfo, order, totalPrice, cnt);
-        } else {//판매
+        }
+        else {//판매
             if (order == null || order.getQuantity() < cnt) {//가진것이 없거나 수량이 모자라면
                 return false;
             }
-            orderService.sell(user, nowStockInfo, nowStock, order, totalPrice, cnt);
+
+            orderService.sell(user, nowStockInfo, stock, order, cnt);
         }
 
         return true;

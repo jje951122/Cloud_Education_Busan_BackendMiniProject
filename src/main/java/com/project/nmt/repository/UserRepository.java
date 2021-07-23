@@ -12,12 +12,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	Optional<User> findByUserId(String userId);
-	
-	@Modifying
-	@Transactional
-	@Query("update User u SET u.budget=:budget WHERE u.id=:userId")
-	int updateBudget(int budget, Long userId);//품목 사고팔떄 유저의 자산을 변경
-
 
 	boolean existsByUserId(String userId);
 

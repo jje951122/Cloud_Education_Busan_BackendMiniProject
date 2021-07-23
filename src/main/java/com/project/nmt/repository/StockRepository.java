@@ -14,4 +14,5 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     Stock findByKeyword(String keyword);
 
     Stock findByName(String name);
+
 }

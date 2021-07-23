@@ -14,7 +14,7 @@
             <a class="nav-link" href="/stock">Stock</a>
           </li>
           <li th:if="${session.user != null}" class="nav-item">
-            <a class="nav-link" href="/article/0">Wallet</a>
+            <a class="nav-link" th:href="@{/user/wallet/{id}(id=${session.user.id})}">Wallet</a>
           </li>
         </ul>
         <div th:if="${session.user == null}">

@@ -46,4 +46,16 @@ public class StockService {
     public Stock getStockByName(String name) {
         return stockRepository.findByName(name);
     }
+
+    public Stock getStockByKeyword(String keyword) {
+        return stockRepository.findByKeyword(keyword);
+    }
+
+    public void changeCnt(Long stockId, int cnt) {
+        Stock stock = stockRepository.findById(stockId).orElseGet(Stock::new);
+
+        stock.changeCnt(cnt);
+
+        stockRepository.save(stock);
+    }
 }

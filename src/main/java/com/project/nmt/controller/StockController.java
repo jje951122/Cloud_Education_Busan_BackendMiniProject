@@ -64,8 +64,7 @@ public class StockController {
     public String nowProduct(@PathVariable("name") String name, Model model, HttpSession session) {
         Stock stock = stockService.getStockByName(name);
 
-        model.addAttribute("keyword", stock.getKeyword());
-        model.addAttribute("stockId", stock.getId());
+        model.addAttribute("stock", stock);
 
         // 당일 가격, 하루전과의 변동률
         LocalTime now = LocalTime.now();

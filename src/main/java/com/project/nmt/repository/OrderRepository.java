@@ -11,10 +11,11 @@ import com.project.nmt.model.Order;
 import com.project.nmt.model.Stock;
 import com.project.nmt.model.User;
 
-@Transactional
+import java.util.List;
 
+@Transactional
 public interface OrderRepository extends JpaRepository<Order, Long>{
-	@Query("select o from Order o where o.user=?1 AND o.stock=?2")
+
 	Order findByUserAndStock(User user, Stock stock);
 
 	@Modifying
@@ -28,7 +29,6 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	@Modifying
 	@Query("update Order o SET o.quantity=?2 WHERE o.id=?1")
 	void updateQuantityById(Long orderId, int count);//팔았을떄 보유내역에서 감소
-	
 
-	
+	List<Order> findAllByUser(User user);
 }

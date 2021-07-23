@@ -48,4 +48,8 @@ public class User {
             this.password = form.getPassword();
         }
     }
+
+    public void updateBudget(int updateBudget) {
+        this.budget = updateBudget;
+    }
 }

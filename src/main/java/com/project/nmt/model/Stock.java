@@ -31,4 +31,8 @@ public class Stock {
         this.keyword = keyword;
         this.quantity = quantity;
     }
+
+    public void changeCnt(int cnt) {
+        this.quantity += cnt;
+    }
 }
