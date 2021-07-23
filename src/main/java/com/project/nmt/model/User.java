@@ -27,7 +27,7 @@ public class User {
     private int budget;             // 자산
 
     @OneToMany(mappedBy = "user")
-    private final List<Order> order = new ArrayList<>();
+    private final List<Order> orderList = new ArrayList<>();
 
 
     @Builder
@@ -51,5 +51,15 @@ public class User {
 
     public void updateBudget(int updateBudget) {
         this.budget = updateBudget;
+    }
+
+    public int getTotalOrderPrice() {
+        int sum = 0;
+
+        for (Order order : orderList) {
+            sum += order.getPrice() * order.getQuantity();
+        }
+
+        return sum;
     }
 }

@@ -3,7 +3,9 @@ package com.project.nmt.controller;
 import com.project.nmt.dto.LogInDto;
 import com.project.nmt.dto.SignupForm;
 import com.project.nmt.dto.UserUpdateForm;
+import com.project.nmt.model.OrderLog;
 import com.project.nmt.model.User;
+import com.project.nmt.service.OrderLogService;
 import com.project.nmt.service.UserService;
 import com.project.nmt.validator.UserSignupValidator;
 import com.project.nmt.validator.UserUpdateValidator;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -25,6 +28,7 @@ public class UserController {
 	private final UserService userService;
 	private final UserSignupValidator userSignupValidator;
 	private final UserUpdateValidator userUpdateValidator;
+	private final OrderLogService orderLogService;
 
 	@GetMapping("/signUp")
 	public String getSignUp(Model model) {
@@ -106,6 +110,17 @@ public class UserController {
 		userService.updateUser(user, form);
 
 		return "redirect:/";
+	}
+
+	@GetMapping("/user/history/{id}")
+	public String getHistory(@PathVariable("id") Long id, Model model) {
+		User user = userService.getOneById(id);
+		List<OrderLog> orderLogs = orderLogService.getListByUser(user);
+
+		model.addAttribute("user", user);
+		model.addAttribute("orderLogList", orderLogs);
+
+		return "stock/stock-transaction";
 	}
 
 }

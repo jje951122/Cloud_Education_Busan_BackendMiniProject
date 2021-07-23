@@ -4,6 +4,7 @@ import com.project.nmt.model.OrderLog;
 import com.project.nmt.model.User;
 import com.project.nmt.repository.OrderLogRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,4 +26,9 @@ public class OrderLogService {
                              x.getSoldDate().compareTo(endDate) <= 0)
                 .collect(Collectors.toList());
     }
+
+    public List<OrderLog> getListByUser(User user) {
+        return orderLogRepository.findAllByUser(user);
+    }
+
 }

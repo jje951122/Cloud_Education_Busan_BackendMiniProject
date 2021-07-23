@@ -44,6 +44,10 @@
 								   th:href="@{/user/update/{id}(id=${user.id})}" class="btn btn-primary btn-lg btn-block">
 									수정
 								</a>
+								<a th:if="${session.user.id == user.id}"
+								   th:href="@{/user/history/{id}(id=${user.id})}" class="btn btn-primary btn-lg btn-block">
+									거래 내역
+								</a>
 							</form>
 						</div>
 					</div>

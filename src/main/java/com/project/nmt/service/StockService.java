@@ -22,7 +22,7 @@ public class StockService {
         return stockRepository.findAll();
     }
 
-    public List<Stock> getStocksByPage(int page, int size) {
+    public List<Stock> getPagingAndSortingStocks(int page, int size, String sort) {
         int count = (int) stockRepository.count();
         int fromIdx = page * size;
         int toIdx = (page + 1) * size;
@@ -31,7 +31,7 @@ public class StockService {
             toIdx = count;
         }
 
-        return stockRepository.findAll(Sort.by("keyword"))
+        return stockRepository.findAll(Sort.by(sort))
                 .subList(fromIdx, toIdx);
     }
 
