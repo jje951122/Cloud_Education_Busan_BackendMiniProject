@@ -4,9 +4,6 @@ import com.project.nmt.jsoup.ArticleCrawler;
 import com.project.nmt.model.Article;
 import com.project.nmt.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

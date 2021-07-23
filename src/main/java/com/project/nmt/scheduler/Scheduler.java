@@ -23,4 +23,5 @@ public class Scheduler {
     public void getNewStockDate() {
         dataSetter.getTodayProductData();
     }
+
 }
