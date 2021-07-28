@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class DataSetter {
         saveProductData(start.format(DateTimeFormatter.ISO_DATE), end.format(DateTimeFormatter.ISO_DATE));
     }
 
-
+   
     public void saveProductData(String startDate, String endDate) {
         List<Map<String, Object>> prices;
 
