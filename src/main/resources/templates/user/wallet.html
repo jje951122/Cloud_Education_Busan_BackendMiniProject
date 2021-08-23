@@ -52,7 +52,7 @@
                     <th>구매평가금액</th>
                     <th>구매금액합계</th>
                     <th>현재금액</th>
-                    <th>구매금액합계</th>
+                    <th>현재금액합계</th>
                     <th>수량</th>
                     <th>수익률</th>
                 </tr>
@@ -70,7 +70,7 @@
                     <td th:text="${dto.nowPrice}"></td>
                     <td th:text="${dto.nowPrice * dto.quantity}"></td>
                     <td th:text="${dto.quantity}"></td>
-                    <td th:text="${dto.percent}"></td>
+                    <td th:text="${dto.percent}+'%'"></td>
                 </tr>
                 <tr th:each="number : ${#numbers.sequence(orderDtoList.size(), 10)}">
                     <td>-</td>

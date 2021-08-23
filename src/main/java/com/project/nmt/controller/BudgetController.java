@@ -71,7 +71,7 @@ public class BudgetController {
             temp.setStockId(stockService.getStockByKeyword(temp.getKeyword()).getId());
             list.add(temp);
 
-            total += order.getPrice() * order.getQuantity();
+            total += temp.getNowPrice() * order.getQuantity();
         }
 
         model.addAttribute("orderDtoList", list);
