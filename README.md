@@ -6,7 +6,6 @@
 > 사용한 기술 : 
 >* Spring Boot  
 >* Java 
->* CSS  
 >* HTML
 >* OracleDB
 
